@@ -1,0 +1,22 @@
+Projekt: Website für Ferienwohnungen mit Credits
+Projektleiter: Lukas Heiming
+Endergebnisse: Website um Ferienwohnungen zu buchen mit Token Käufen
+Kunden: Ferieninteressierte, hauptsächlich Familien oder ältere Leute
+Anfoderungen: Benutzerfreundlich, Transparent
+Abnahmekriterien:   Gute Bewertugnen der Ferienwohnungen
+                    (durchschnittlich min 3,5 von 5 Sternen),
+                    rentabel nach einem Jahr.
+Risiken: Zu wenige Besucher/Kunden, keine oder wenige Tokenkäufe,
+         entwickelt von Studenten(unerfahren)
+Deadlines: dieses Semester
+Klassifizierung: mittlerer Aufwand, mittleres Risiko
+Prioritäten: Geringe Kosten, mittleres Risiko, mit mehr Nutzerkonten exponentielles Wachstum
+Grenzen: 
+Definition:     1 Woche
+Planung:        2 Wochen
+Reaslierung:    5 Wochen
+Abschluss:      2 Wochen
+Kontrolle:      1 Woche
+------------------------
+Summe:         11 Wochen
+Puffer:        +4 Wochen

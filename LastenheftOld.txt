@@ -1,0 +1,11 @@
+Credit System
+Nutzerkonten
+3 mal 2 Wochen pro Jahr
+Mehr Credits => bevorzugt
+Wer einen Urlaub nicht nutzt bekommt credits (z.B. 2000/Jahr)
+Credits sind auch käuflich
+HTML Interface
+C# Backend
+SQL DB
+Ferienzeiten = mehr punkte, außerhalb weniger
+Transparentes System für Kunden

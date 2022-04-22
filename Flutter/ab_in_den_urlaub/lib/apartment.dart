@@ -1,0 +1,34 @@
+import 'package:flutter/material.dart';
+
+import 'appBars.dart';
+
+class Impressum extends StatefulWidget {
+  Impressum({Key? key}) : super(key: key);
+  @override
+  _ImpressumState createState() => _ImpressumState();
+}
+
+class _ImpressumState extends State<Impressum> {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      type: MaterialType.transparency,
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: AppBar().preferredSize,
+          child: AppBarBrowser(),
+        ),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

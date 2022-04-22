@@ -1,0 +1,9 @@
+1. Suchfunktion für Wohnungen mit verschiedenen Filtern (nach Ort, Tokenkosten)
+2. Wenn jemand Wohnung anschaut für alle anderen gelockt für bestimmte Zeit
+3. Punkte werden abgezogen wenn man kauft
+4. Man bekommt Punkte geschenkt wenn man lange nichts kauft
+5. Gebuchte Wohnungen werden anderen nicht mehr angezeigt
+6. Man kann Wohnungen für mehr Tokens buchen wenn man direkt Aufpreis zahlt
+7. Menge der Tokens wird immer angezeigt
+8. Google Maps Widget Einbindung oder Open Street View
+9. Bis 24h vor Antritt kann man mit voller Erstattung stornieren
