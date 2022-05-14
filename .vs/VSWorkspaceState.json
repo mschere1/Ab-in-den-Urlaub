@@ -3,7 +3,8 @@
     "",
     "\\Backend",
     "\\Backend\\AbInDenUrlaub",
-    "\\Backend\\AbInDenUrlaub\\AbInDenUrlaub"
+    "\\Backend\\AbInDenUrlaub\\AbInDenUrlaub",
+    "\\Backend\\AbInDenUrlaub\\AbInDenUrlaub\\Models"
   ],
   "SelectedNode": "\\Backend\\AbInDenUrlaub\\AbInDenUrlaub.sln",
   "PreviewInSolutionExplorer": false

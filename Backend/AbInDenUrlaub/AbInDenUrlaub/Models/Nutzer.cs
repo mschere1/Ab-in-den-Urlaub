@@ -27,7 +27,7 @@ namespace AbInDenUrlaub
         public virtual ICollection<Bewertung> Bewertungs { get; set; }
         public virtual ICollection<Ferienwohnung> Ferienwohnungs { get; set; }
         public virtual ICollection<Gebot> Gebots { get; set; }
-        public virtual ICollection<Kreditkartendaten> Kreditkartendatens { get; set; }
-        public virtual ICollection<Rechnungshistorieeintrag> Rechnungshistorieeintrags { get; set; }
+        public virtual ICollection<Kreditkartendaten>? Kreditkartendatens { get; set; }
+        public virtual ICollection<Rechnungshistorieeintrag>? Rechnungshistorieeintrags { get; set; }
     }
 }

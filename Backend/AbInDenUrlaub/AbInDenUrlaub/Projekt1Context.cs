@@ -70,7 +70,6 @@ namespace AbInDenUrlaub
                 entity.HasOne(d => d.Fw)
                     .WithMany(p => p.Angebotes)
                     .HasForeignKey(d => d.FwId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("angebote_fw_id_fkey");
             });
 
@@ -91,7 +90,6 @@ namespace AbInDenUrlaub
                 entity.HasOne(d => d.Fw)
                     .WithMany(p => p.Bewertungs)
                     .HasForeignKey(d => d.FwId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("bewertung_fw_id_fkey");
 
                 entity.HasOne(d => d.User)
@@ -121,9 +119,9 @@ namespace AbInDenUrlaub
 
                 entity.Property(e => e.FwId).HasColumnName("fw_id");
 
-                entity.Property(e => e.Anzbetten).HasColumnName("anzbetten");
+                entity.Property(e => e.Anzbaeder).HasColumnName("anzbaeder");
 
-                entity.Property(e => e.Anzbäder).HasColumnName("anzbäder");
+                entity.Property(e => e.Anzbetten).HasColumnName("anzbetten");
 
                 entity.Property(e => e.Anzzimmer).HasColumnName("anzzimmer");
 
@@ -139,9 +137,9 @@ namespace AbInDenUrlaub
 
                 entity.Property(e => e.Plz).HasColumnName("plz");
 
-                entity.Property(e => e.Straße)
+                entity.Property(e => e.Strasse)
                     .HasMaxLength(70)
-                    .HasColumnName("straße");
+                    .HasColumnName("strasse");
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
@@ -170,7 +168,6 @@ namespace AbInDenUrlaub
                 entity.HasOne(d => d.Angebot)
                     .WithMany(p => p.Gebots)
                     .HasForeignKey(d => d.AngebotId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("gebot_angebot_id_fkey");
 
                 entity.HasOne(d => d.User)
@@ -260,7 +257,6 @@ namespace AbInDenUrlaub
                 entity.HasOne(d => d.Angebot)
                     .WithMany(p => p.Rechnungshistorieeintrags)
                     .HasForeignKey(d => d.AngebotId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("rechnungshistorieeintrag_angebot_id_fkey");
 
                 entity.HasOne(d => d.User)
@@ -297,13 +293,11 @@ namespace AbInDenUrlaub
                 entity.HasOne(d => d.Bild)
                     .WithMany(p => p.Wohnungsbilders)
                     .HasForeignKey(d => d.BildId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("wohnungsbilder_bild_id_fkey");
 
                 entity.HasOne(d => d.Fw)
                     .WithMany(p => p.Wohnungsbilders)
                     .HasForeignKey(d => d.FwId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("wohnungsbilder_fw_id_fkey");
             });
 

@@ -1,5 +1,17 @@
-CREATE TABLE IF NOT EXISTS Nutzer
-(
+/*DROP TABLE IF EXISTS bewertung;
+DROP TABLE IF EXISTS wohnungsbilder;
+DROP TABLE IF EXISTS bilder;
+DROP TABLE IF EXISTS tokens;
+DROP TABLE IF EXISTS rechnungshistorieeintrag;
+DROP TABLE IF EXISTS gebot;
+DROP TABLE IF EXISTS angebote;
+DROP TABLE IF EXISTS ferienwohnung;
+DROP TABLE IF EXISTS kreditkartendaten;
+DROP TABLE IF EXISTS nutzer;*/
+
+
+
+CREATE TABLE IF NOT EXISTS nutzer (
 	user_id serial PRIMARY KEY,
 	username VARCHAR (50) UNIQUE NOT NULL,
 	nachname VARCHAR (50) NOT NULL,
@@ -10,99 +22,101 @@ CREATE TABLE IF NOT EXISTS Nutzer
 	vermieter boolean,
 	admin boolean
 );
-
-CREATE TABLE IF NOT EXISTS Kreditkartendaten (
-	user_id INT NOT NULL,
-	kartennummer BIGINT NOT NULL,
-	CVV INT NOT NULL,
-	FOREIGN KEY (user_id)
-		REFERENCES Nutzer (user_id)
-);
-
-CREATE TABLE IF NOT EXISTS Ferienwohnung (
-	FW_ID serial PRIMARY KEY,
-	user_id INT NOT NULL,
-	FOREIGN KEY (user_id)
-		REFERENCES Nutzer (user_id),
-	Stra�e VARCHAR (70) NOT NULL,
-	Ort VARCHAR (70) NOT NULL,
-	PLZ INT NOT NULL,
-	Wohnflaeche INT NOT NULL,
-	AnzZimmer INT NOT NULL,
-	AnzBetten INT NOT NULL,
-	AnzB�der INT NOT NULL,
-	Wifi boolean NOT NULL,
-	Garten boolean NOT NULL,
-	Balkon boolean NOT NULL,
-	Beschreibung TEXT
-);
-
-CREATE TABLE IF NOT EXISTS Bilder (
-	Bild_ID serial PRIMARY KEY,
-	Bild bytea,
-    FOREIGN KEY (FW_ID)
-		REFERENCES Ferienwohnung (FW_ID),
-	Bild_ID INT NOT NULL,
-	FOREIGN KEY (Bild_ID)
-		REFERENCES Bilder (Bild_ID)
-);
-
-CREATE TABLE IF NOT EXISTS Wohnungsbilder (
-	WGB_ID serial PRIMARY KEY,
-	FW_ID INT NOT NULL,
-    FOREIGN KEY (FW_ID)
-		REFERENCES Ferienwohnung (FW_ID),
-	Bild_ID INT NOT NULL,
-	FOREIGN KEY (Bild_ID)
-		REFERENCES Bilder (Bild_ID)
 	
+
+CREATE TABLE IF NOT EXISTS kreditkartendaten (
+	kdd_ID serial PRIMARY KEY,
+    user_id INT NOT NULL,
+	kartennummer bigint NOT NULL,
+	cvv INT NOT NULL,
+	FOREIGN KEY (user_id)
+		REFERENCES nutzer (user_id)
 );
 
-CREATE TABLE IF NOT EXISTS Tokens (
-	Tokenpreis INT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS Angebote (
-	Angebot_ID serial PRIMARY KEY,
-	FW_ID INT NOT NULL,
-	FOREIGN KEY (FW_ID)
-		REFERENCES Ferienwohnung (FW_ID),
-	Mietzeitraum_Start timestamp NOT NULL,
-	Mietzeitraum_Ende timestamp NOT NULL,
-	Auktion_EndDatum timestamp NOT NULL,
-	Aktueller_Tokenpreis INT NOT NULL,
-	Mietpreis INT NOT NULL,
-	Stornierbar boolean NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS Gebot (
-	Angebot_ID INT NOT NULL,
-	FOREIGN KEY (Angebot_ID)
-		REFERENCES Angebote (Angebot_ID),
+CREATE TABLE IF NOT EXISTS ferienwohnung (
+	fw_ID serial PRIMARY KEY,
 	user_id INT NOT NULL,
 	FOREIGN KEY (user_id)
-		REFERENCES Nutzer (user_id),
-	Preis INT NOT NULL
+		REFERENCES nutzer (user_id),
+	strasse VARCHAR (70) NOT NULL,
+	ort VARCHAR (70) NOT NULL,
+	plz INT NOT NULL,
+	wohnflaeche INT NOT NULL,
+	anzZimmer INT NOT NULL,
+	anzBetten INT NOT NULL,
+	anzBaeder INT NOT NULL,
+	wifi boolean NOT NULL,
+	garten boolean NOT NULL,
+	balkon boolean NOT NULL,
+	beschreibung TEXT
 );
 
-CREATE TABLE IF NOT EXISTS Bewertung (
+CREATE TABLE IF NOT EXISTS angebote (
+	angebot_ID serial PRIMARY KEY,
+	fw_ID INT NOT NULL,
+	FOREIGN KEY (fw_ID)
+		REFERENCES ferienwohnung (fw_ID),
+	mietzeitraum_Start timestamp NOT NULL,
+	mietzeitraum_Ende timestamp NOT NULL,
+	auktion_EndDatum timestamp NOT NULL,
+	aktueller_Tokenpreis INT NOT NULL,
+	mietpreis INT NOT NULL,
+	stornierbar boolean NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS gebot (
+	gebot_id serial PRIMARY KEY,
+    angebot_ID INT NOT NULL,
+	FOREIGN KEY (angebot_ID)
+		REFERENCES angebote (angebot_ID),
+	user_id INT NOT NULL,
+	FOREIGN KEY (user_id)
+		REFERENCES nutzer (user_id),
+	preis INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS rechnungshistorieeintrag (
+	rh_ID serial PRIMARY KEY,
+	user_id INT NOT NULL,
+	FOREIGN KEY (user_id)
+		REFERENCES nutzer (user_id),
+	angebot_ID INT NOT NULL,
+	FOREIGN KEY (angebot_ID)
+		REFERENCES angebote (angebot_ID),
+	storniert boolean
+);	
+
+
+CREATE TABLE IF NOT EXISTS tokens (
+    tok_ID serial PRIMARY KEY,
+	tokenpreis INT NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS bilder (
+	bild_ID serial PRIMARY KEY,
+	bild bytea NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS wohnungsbilder (
+	wgb_ID serial PRIMARY KEY,
+	fw_ID INT NOT NULL,
+	FOREIGN KEY (fw_ID)
+		REFERENCES ferienwohnung (fw_ID),
+	bild_ID INT NOT NULL,
+	FOREIGN KEY (bild_ID)
+		REFERENCES bilder (bild_ID)
+);
+
+CREATE TABLE IF NOT EXISTS bewertung (
+    bewertung_id serial PRIMARY KEY,
     user_id INT NOT NULL,
     FOREIGN KEY (user_id)
-        REFERENCES Nutzer (user_id),
-    FW_ID INT NOT NULL,
-    FOREIGN KEY (FW_ID)
-        REFERENCES Ferienwohnung (FW_ID),
-    AnzSterne INT NOT NULL,
-    Kommentar TEXT NOT NULL
+        REFERENCES nutzer (user_id),
+    fw_ID INT NOT NULL,
+    FOREIGN KEY (fw_ID)
+        REFERENCES ferienwohnung (fw_ID),
+    anzSterne int NOT NULL,
+    kommentar text
 );
 
-CREATE TABLE IF NOT EXISTS Rechnungshistorieeintrag (
-	RH_ID serial PRIMARY KEY,
-	user_id INT NOT NULL,
-	FOREIGN KEY (user_id)
-		REFERENCES Nutzer (user_id),
-	Angebot_ID INT NOT NULL,
-	FOREIGN KEY (Angebot_ID)
-		REFERENCES Angebote (Angebot_ID),
-	Storniert boolean
-);	

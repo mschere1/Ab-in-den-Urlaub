@@ -12,7 +12,7 @@ namespace AbInDenUrlaub
         }
 
         public int AngebotId { get; set; }
-        public int FwId { get; set; }
+        public int? FwId { get; set; }
         public DateTime MietzeitraumStart { get; set; }
         public DateTime MietzeitraumEnde { get; set; }
         public DateTime AuktionEnddatum { get; set; }
@@ -20,7 +20,7 @@ namespace AbInDenUrlaub
         public int Mietpreis { get; set; }
         public bool Stornierbar { get; set; }
 
-        public virtual Ferienwohnung Fw { get; set; } = null!;
+        public virtual Ferienwohnung? Fw { get; set; }
         public virtual ICollection<Gebot> Gebots { get; set; }
         public virtual ICollection<Rechnungshistorieeintrag> Rechnungshistorieeintrags { get; set; }
     }

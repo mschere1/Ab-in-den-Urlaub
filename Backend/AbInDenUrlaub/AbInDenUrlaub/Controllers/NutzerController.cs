@@ -21,6 +21,17 @@ namespace AbInDenUrlaub.Controllers
             return Ok(await context.Nutzers.ToListAsync());
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<Nutzer>>> GetbyID(int id)
+        {
+            var nutzer = await context.Nutzers.FindAsync(id);
+            if(nutzer == null)
+            {
+                return BadRequest("User not found");
+            }
+            return Ok(nutzer);
+        }
+
         [HttpPost]
         public async Task<ActionResult<List<Nutzer>>> AddNutzer(Nutzer nutzer)
         {

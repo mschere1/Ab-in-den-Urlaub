@@ -14,13 +14,13 @@ namespace AbInDenUrlaub
 
         public int FwId { get; set; }
         public int? UserId { get; set; }
-        public string Straße { get; set; } = null!;
+        public string Strasse { get; set; } = null!;
         public string Ort { get; set; } = null!;
         public int Plz { get; set; }
         public int Wohnflaeche { get; set; }
         public int Anzzimmer { get; set; }
         public int Anzbetten { get; set; }
-        public int Anzbäder { get; set; }
+        public int Anzbaeder { get; set; }
         public bool Wifi { get; set; }
         public bool Garten { get; set; }
         public bool Balkon { get; set; }
