@@ -40,5 +40,44 @@ namespace AbInDenUrlaub.Controllers
 
             return Ok(await context.Nutzers.ToListAsync());
         }
+
+        [HttpPut]
+        public async Task<ActionResult<List<Nutzer>>> UpdateNutzer(Nutzer updatedNutzer)
+        {
+            var dbNutzer = await context.Nutzers.FindAsync(updatedNutzer.UserId);
+            if(dbNutzer == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            dbNutzer.Username = updatedNutzer.Username;
+            dbNutzer.Vorname = updatedNutzer.Vorname;
+            dbNutzer.Password = updatedNutzer.Password;
+            dbNutzer.Email = updatedNutzer.Email;
+            dbNutzer.Email = updatedNutzer.Email;
+            dbNutzer.Tokenstand = updatedNutzer.Tokenstand;
+            dbNutzer.Admin = updatedNutzer.Admin;
+            dbNutzer.Vermieter = updatedNutzer.Vermieter;
+
+            await context.SaveChangesAsync();
+
+            return Ok(await context.Nutzers.ToListAsync());
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<List<Nutzer>>> DeleteNutzer (int id)
+        {
+            var toDelete = await context.Nutzers.FindAsync(id);
+            if(toDelete == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            context.Nutzers.Remove(toDelete);
+
+            await context.SaveChangesAsync();
+
+            return Ok(await context.Nutzers.ToListAsync());
+        }
     }
 }

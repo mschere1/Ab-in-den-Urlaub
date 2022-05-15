@@ -13,6 +13,9 @@ builder.Services.AddDbContext<AbInDenUrlaub.Projekt1Context>(options =>
     options.UseNpgsql("Server=h2956807.stratoserver.net; Database=Projekt1;Port=5432;SslMode=Disable;User Id=postgres");
 });
 
+builder.Services.AddControllers().AddJsonOptions(x =>
+    x.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
