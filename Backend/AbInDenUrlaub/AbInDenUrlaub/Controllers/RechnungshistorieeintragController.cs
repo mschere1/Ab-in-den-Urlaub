@@ -20,7 +20,9 @@ namespace AbInDenUrlaub.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Rechnungshistorieeintrag>>> GetHistorie(int id)
         {
-
+            IList<Rechnungshistorieeintrag> rechnungshistorie = await context.Rechnungshistorieeintrags
+                 .Include(n => n.User)
+                 .Include(a => a.Angebot).ToListAsync();
 
             List<Rechnungshistorieeintrag> list = await context.Rechnungshistorieeintrags.ToListAsync();
 
