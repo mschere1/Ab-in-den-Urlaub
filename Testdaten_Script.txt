@@ -1,0 +1,290 @@
+DROP TABLE IF EXISTS bewertung;
+DROP TABLE IF EXISTS wohnungsbilder;
+DROP TABLE IF EXISTS bilder;
+DROP TABLE IF EXISTS tokens;
+DROP TABLE IF EXISTS rechnungshistorieeintrag;
+DROP TABLE IF EXISTS gebot;
+DROP TABLE IF EXISTS angebote;
+DROP TABLE IF EXISTS ferienwohnung;
+DROP TABLE IF EXISTS kreditkartendaten;
+DROP TABLE IF EXISTS nutzer;
+
+
+
+CREATE TABLE IF NOT EXISTS nutzer (
+	user_id serial PRIMARY KEY,
+	username VARCHAR (50) UNIQUE NOT NULL,
+	nachname VARCHAR (50) NOT NULL,
+	vorname VARCHAR (50) NOT NULL,
+	password VARCHAR (50) NOT NULL,
+	email VARCHAR (255) UNIQUE NOT NULL,
+	tokenstand INT,
+	vermieter boolean,
+	admin boolean
+);
+	
+
+CREATE TABLE IF NOT EXISTS kreditkartendaten (
+	kdd_ID serial PRIMARY KEY,
+    user_id INT NOT NULL,
+	kartennummer bigint NOT NULL,
+	cvv INT NOT NULL,
+	FOREIGN KEY (user_id)
+		REFERENCES nutzer (user_id)
+);
+
+CREATE TABLE IF NOT EXISTS ferienwohnung (
+	fw_ID serial PRIMARY KEY,
+	user_id INT NOT NULL,
+	FOREIGN KEY (user_id)
+		REFERENCES nutzer (user_id),
+	strasse VARCHAR (70) NOT NULL,
+	ort VARCHAR (70) NOT NULL,
+	plz INT NOT NULL,
+	wohnflaeche INT NOT NULL,
+	anzZimmer INT NOT NULL,
+	anzBetten INT NOT NULL,
+	anzBaeder INT NOT NULL,
+	wifi boolean NOT NULL,
+	garten boolean NOT NULL,
+	balkon boolean NOT NULL,
+	beschreibung TEXT
+);
+
+CREATE TABLE IF NOT EXISTS angebote (
+	angebot_ID serial PRIMARY KEY,
+	fw_ID INT NOT NULL,
+	FOREIGN KEY (fw_ID)
+		REFERENCES ferienwohnung (fw_ID),
+	mietzeitraum_Start timestamp NOT NULL,
+	mietzeitraum_Ende timestamp NOT NULL,
+	auktion_EndDatum timestamp NOT NULL,
+	aktueller_Tokenpreis INT NOT NULL,
+	mietpreis INT NOT NULL,
+	stornierbar boolean NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS gebot (
+	gebot_id serial PRIMARY KEY,
+    angebot_ID INT NOT NULL,
+	FOREIGN KEY (angebot_ID)
+		REFERENCES angebote (angebot_ID),
+	user_id INT NOT NULL,
+	FOREIGN KEY (user_id)
+		REFERENCES nutzer (user_id),
+	preis INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS rechnungshistorieeintrag (
+	rh_ID serial PRIMARY KEY,
+	user_id INT NOT NULL,
+	FOREIGN KEY (user_id)
+		REFERENCES nutzer (user_id),
+	angebot_ID INT NOT NULL,
+	FOREIGN KEY (angebot_ID)
+		REFERENCES angebote (angebot_ID),
+	storniert boolean
+);	
+
+
+CREATE TABLE IF NOT EXISTS tokens (
+    tok_ID serial PRIMARY KEY,
+	tokenpreis INT NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS bilder (
+	bild_ID serial PRIMARY KEY,
+	bild bytea NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS wohnungsbilder (
+	wgb_ID serial PRIMARY KEY,
+	fw_ID INT NOT NULL,
+	FOREIGN KEY (fw_ID)
+		REFERENCES ferienwohnung (fw_ID),
+	bild_ID INT NOT NULL,
+	FOREIGN KEY (bild_ID)
+		REFERENCES bilder (bild_ID)
+);
+
+CREATE TABLE IF NOT EXISTS bewertung (
+    bewertung_id serial PRIMARY KEY,
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id)
+        REFERENCES nutzer (user_id),
+    fw_ID INT NOT NULL,
+    FOREIGN KEY (fw_ID)
+        REFERENCES ferienwohnung (fw_ID),
+    anzSterne int NOT NULL,
+    kommentar text
+);
+
+
+
+INSERT INTO nutzer (username, nachname, vorname, password, email, tokenstand, vermieter, admin)
+VALUES ('BastianDerKönig', 'Huber', 'Bastian', 'mylittlepony123', 'emailtest', '0', 'false', 'true');
+
+INSERT INTO nutzer (username, nachname, vorname, password, email, tokenstand, vermieter, admin)
+VALUES ('Heins', 'Hauer', 'Heins', 'mypassword', 'emailtest1', '0', 'false', 'false');
+
+INSERT INTO nutzer (username, nachname, vorname, password, email, tokenstand, vermieter, admin)
+VALUES ('Justus', 'Bauer', 'Justus', 'einskrasserbauer', 'emailtest2', '0', 'true', 'false');
+
+INSERT INTO nutzer (username, nachname, vorname, password, email, tokenstand, vermieter, admin)
+VALUES ('Keil', 'Geil', 'Keil', 'feilseil', 'emailtest3', '0', 'true', 'false');
+
+INSERT INTO nutzer (username, nachname, vorname, password, email, tokenstand, vermieter, admin)
+VALUES ('Felix', 'Kämpfer', 'Felix', '213egadfhba', 'emailtest4', '0', 'true', 'false');
+
+INSERT INTO nutzer (username, nachname, vorname, password, email, tokenstand, vermieter, admin)
+VALUES ('David', 'Schmidt', 'David', 'dgfgg233223', 'emailtest5', '0', 'false', 'false');
+
+INSERT INTO nutzer (username, nachname, vorname, password, email, tokenstand, vermieter, admin)
+VALUES ('Arbenita', 'Fischer', 'Arbenita', 'asegferhjz4575683', 'emailtest6', '0', 'true', 'false');
+
+INSERT INTO nutzer (username, nachname, vorname, password, email, tokenstand, vermieter, admin)
+VALUES ('Vera', 'Hofmann', 'Vera', 'eGSDRG$$§123', 'emailtest7', '0', 'true', 'false');
+
+INSERT INTO nutzer (username, nachname, vorname, password, email, tokenstand, vermieter, admin)
+VALUES ('Jonas', 'Weber', 'Jonas', 'sfghthe23141', 'emailtest8', '0', 'false', 'false');
+
+INSERT INTO nutzer (username, nachname, vorname, password, email, tokenstand, vermieter, admin)
+VALUES ('Thorben', 'Wagner', 'Thorben', 'sdgaerhe253579', 'emailtest9', '0', 'true', 'false');
+
+
+
+INSERT INTO kreditkartendaten (user_id, kartennummer, cvv)
+VALUES ('1', '12345678912345', '555');
+
+INSERT INTO kreditkartendaten (user_id, kartennummer, cvv)
+VALUES ('2', '12354821685486', '123');
+
+INSERT INTO kreditkartendaten (user_id, kartennummer, cvv)
+VALUES ('3', '21874763581655', '456');
+
+INSERT INTO kreditkartendaten (user_id, kartennummer, cvv)
+VALUES ('4', '21548481651511', '789');
+
+INSERT INTO kreditkartendaten (user_id, kartennummer, cvv)
+VALUES ('5', '87879465162132', '741');
+
+INSERT INTO kreditkartendaten (user_id, kartennummer, cvv)
+VALUES ('6', '21879813215498', '852');
+
+INSERT INTO kreditkartendaten (user_id, kartennummer, cvv)
+VALUES ('7', '21654651354384', '963');
+
+INSERT INTO kreditkartendaten (user_id, kartennummer, cvv)
+VALUES ('8', '63541685416513', '159');
+
+INSERT INTO kreditkartendaten (user_id, kartennummer, cvv)
+VALUES ('9', '85464786516513', '753');
+
+INSERT INTO kreditkartendaten (user_id, kartennummer, cvv)
+VALUES ('10', '56854877465213', '462');
+
+
+
+INSERT INTO ferienwohnung (user_id, strasse, ort, plz, wohnflaeche, anzzimmer, anzbetten, anzbaeder, wifi, garten, balkon, beschreibung)
+VALUES ('1', 'Goldstrasse 1', 'Hamburg', '20095', '60', '3', '1', '1', 'true', 'false', 'false', 'Dies ist eine Beschreibung.');
+
+INSERT INTO ferienwohnung (user_id, strasse, ort, plz, wohnflaeche, anzzimmer, anzbetten, anzbaeder, wifi, garten, balkon, beschreibung)
+VALUES ('1', 'Gunterstrasse 22', 'Paris', '75000', '84', '4', '2', '1', 'true', 'true', 'true', 'Es hat einen tollen Balkon.');
+
+INSERT INTO ferienwohnung (user_id, strasse, ort, plz, wohnflaeche, anzzimmer, anzbetten, anzbaeder, wifi, garten, balkon, beschreibung)
+VALUES ('3', 'Hansjosephstrasse 69', 'London', '74000', '57', '1', '1', '1', 'true', 'false', 'false', 'Die Wohnung ist neu möbeliert.');
+
+INSERT INTO ferienwohnung (user_id, strasse, ort, plz, wohnflaeche, anzzimmer, anzbetten, anzbaeder, wifi, garten, balkon, beschreibung)
+VALUES ('4', 'Klausstrasse 4', 'Budapest', '24687', '87', '4', '1', '1', 'true', 'false', 'true', 'Der Garten ist toll.');
+
+INSERT INTO ferienwohnung (user_id, strasse, ort, plz, wohnflaeche, anzzimmer, anzbetten, anzbaeder, wifi, garten, balkon, beschreibung)
+VALUES ('5', 'Guntherstrasse 34', 'Stockholm', '54762', '55', '2', '2', '1', 'false', 'false', 'false', 'Kleine Wohnung.');
+
+INSERT INTO ferienwohnung (user_id, strasse, ort, plz, wohnflaeche, anzzimmer, anzbetten, anzbaeder, wifi, garten, balkon, beschreibung)
+VALUES ('5', 'Techstrasse 11', 'Madrid', '35486', '97', '5', '4', '2', 'true', 'true', 'true', 'Wunderschöne Wohnung.');
+
+INSERT INTO ferienwohnung (user_id, strasse, ort, plz, wohnflaeche, anzzimmer, anzbetten, anzbaeder, wifi, garten, balkon, beschreibung)
+VALUES ('7', 'Pustekuchenstrasse 42', 'Ottawa', '54882', '74', '3', '1', '1', 'true', 'false', 'false', 'Super.');
+
+INSERT INTO ferienwohnung (user_id, strasse, ort, plz, wohnflaeche, anzzimmer, anzbetten, anzbaeder, wifi, garten, balkon, beschreibung)
+VALUES ('8', 'Graustrasse 8', 'Pjöngjang', '12684', '60', '3', '1', '1', 'true', 'false', 'false', 'Nette Bude.');
+
+INSERT INTO ferienwohnung (user_id, strasse, ort, plz, wohnflaeche, anzzimmer, anzbetten, anzbaeder, wifi, garten, balkon, beschreibung)
+VALUES ('8', 'Mausstrasse 54', 'Athen', '54862', '70', '2', '2', '1', 'true', 'false', 'false', 'Sehr nah zu der Innenstadt.');
+
+INSERT INTO ferienwohnung (user_id, strasse, ort, plz, wohnflaeche, anzzimmer, anzbetten, anzbaeder, wifi, garten, balkon, beschreibung)
+VALUES ('10', 'tutorstrasse 2', '	Tokio', '79423', '88', '4', '2', '1', 'true', 'false', 'true', 'Dies ist eine Beschreibung.');
+
+
+
+INSERT INTO angebote (fw_id, mietzeitraum_start, mietzeitraum_ende, auktion_enddatum, aktueller_tokenpreis, mietpreis, stornierbar)
+VALUES ('1', '01.01.2023', '08.01.2023', '01.12.2021', '100', '700', 'false');
+
+INSERT INTO angebote (fw_id, mietzeitraum_start, mietzeitraum_ende, auktion_enddatum, aktueller_tokenpreis, mietpreis, stornierbar)
+VALUES ('1', '09.01.2023', '16.01.2023', '01.12.2021', '100', '700', 'false');
+
+INSERT INTO angebote (fw_id, mietzeitraum_start, mietzeitraum_ende, auktion_enddatum, aktueller_tokenpreis, mietpreis, stornierbar)
+VALUES ('2', '01.01.2023', '08.01.2023', '01.12.2021', '100', '500', 'true');
+
+INSERT INTO angebote (fw_id, mietzeitraum_start, mietzeitraum_ende, auktion_enddatum, aktueller_tokenpreis, mietpreis, stornierbar)
+VALUES ('4', '01.03.2023', '31.03.2023', '01.2.2023', '100', '1300', 'false');
+
+INSERT INTO angebote (fw_id, mietzeitraum_start, mietzeitraum_ende, auktion_enddatum, aktueller_tokenpreis, mietpreis, stornierbar)
+VALUES ('5', '01.01.2023', '31.01.2023', '01.12.2022', '100', '1500', 'true');
+
+INSERT INTO angebote (fw_id, mietzeitraum_start, mietzeitraum_ende, auktion_enddatum, aktueller_tokenpreis, mietpreis, stornierbar)
+VALUES ('5', '01.02.2023', '28.02.2023', '01.12.2022', '100', '1400', 'true');
+
+INSERT INTO angebote (fw_id, mietzeitraum_start, mietzeitraum_ende, auktion_enddatum, aktueller_tokenpreis, mietpreis, stornierbar)
+VALUES ('7', '01.01.2023', '08.01.2023', '01.12.2022', '100', '400', 'false');
+
+INSERT INTO angebote (fw_id, mietzeitraum_start, mietzeitraum_ende, auktion_enddatum, aktueller_tokenpreis, mietpreis, stornierbar)
+VALUES ('8', '01.04.2023', '16.04.2023', '01.3.2023', '100', '1000', 'false');
+
+INSERT INTO angebote (fw_id, mietzeitraum_start, mietzeitraum_ende, auktion_enddatum, aktueller_tokenpreis, mietpreis, stornierbar)
+VALUES ('9', '24.01.2023', '30.01.2023', '01.12.2022', '100', '600', 'false');
+
+INSERT INTO angebote (fw_id, mietzeitraum_start, mietzeitraum_ende, auktion_enddatum, aktueller_tokenpreis, mietpreis, stornierbar)
+VALUES ('10', '03.01.2023', '08.01.2023', '01.12.2022', '100', '700', 'false');
+
+
+
+INSERT INTO gebot (angebot_id, user_id, preis)
+VALUES ('1', '10', '700');
+
+INSERT INTO gebot (angebot_id, user_id, preis)
+VALUES ('3', '9', '500');
+
+INSERT INTO gebot (angebot_id, user_id, preis)
+VALUES ('5', '7', '1600');
+
+INSERT INTO gebot (angebot_id, user_id, preis)
+VALUES ('7', '3', '500');
+
+INSERT INTO gebot (angebot_id, user_id, preis)
+VALUES ('9', '2', '800');
+
+
+
+INSERT INTO tokens (tok_id, tokenpreis)
+VALUES ('1', '5');
+
+
+
+INSERT INTO rechnungshistorieeintrag (user_id, angebot_id, storniert)
+VALUES ('1', '1', 'false');
+
+INSERT INTO rechnungshistorieeintrag (user_id, angebot_id, storniert)
+VALUES ('8', '2', 'false');
+
+INSERT INTO rechnungshistorieeintrag (user_id, angebot_id, storniert)
+VALUES ('7', '3', 'true');
+
+
+
+INSERT INTO bewertung (user_id, fw_id, anzsterne, kommentar)
+VALUES ('1', '1', '5', 'Super Urlaub, kann ich nur empfehlen.');
+
+INSERT INTO bewertung (user_id, fw_id, anzsterne, kommentar)
+VALUES ('8', '1', '2', 'Angenehmer Wohnung, hätte aber besser sein koennen.');
