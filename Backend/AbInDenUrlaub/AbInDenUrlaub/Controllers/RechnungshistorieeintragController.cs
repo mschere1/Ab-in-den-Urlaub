@@ -20,18 +20,20 @@ namespace AbInDenUrlaub.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Rechnungshistorieeintrag>>> GetHistorie(int id)
         {
-            List<Rechnungshistorieeintrag> rechnungshistorie = new List<Rechnungshistorieeintrag>();
-            List<Rechnungshistorieeintrag> rechnungshistorieeintrags = await context.Rechnungshistorieeintrags.ToListAsync();
 
-            foreach (var item in rechnungshistorie)
+
+            List<Rechnungshistorieeintrag> list = await context.Rechnungshistorieeintrags.ToListAsync();
+
+            foreach(Rechnungshistorieeintrag item  in list)
             {
-                if(id == item.UserId)
+                if(item.UserId == id)
                 {
-                    rechnungshistorie.Add(item);
+                    list.Remove(item);
                 }
             }
 
-            return Ok(rechnungshistorie.ToList());
+
+            return Ok(list);
         }
 
         [HttpGet]
