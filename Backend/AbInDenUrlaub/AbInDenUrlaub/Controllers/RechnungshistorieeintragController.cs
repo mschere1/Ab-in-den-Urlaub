@@ -20,17 +20,15 @@ namespace AbInDenUrlaub.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<List<Rechnungshistorieeintrag>>> GetHistorie(int id)
         {
-            IList<Rechnungshistorieeintrag> rechnungshistorie = await context.Rechnungshistorieeintrags
-                 .Include(n => n.User)
-                 .Include(a => a.Angebot).ToListAsync();
+            List<Rechnungshistorieeintrag> historie = await context.Rechnungshistorieeintrags.ToListAsync();
 
-            List<Rechnungshistorieeintrag> list = await context.Rechnungshistorieeintrags.ToListAsync();
+            List<Rechnungshistorieeintrag> list = new();
 
-            foreach(Rechnungshistorieeintrag item  in list)
+            foreach(Rechnungshistorieeintrag item  in historie)
             {
-                if(item.UserId == id)
+                if (item.UserId == id)
                 {
-                    list.Remove(item);
+                    list.Add(item);
                 }
             }
 
@@ -41,11 +39,34 @@ namespace AbInDenUrlaub.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Rechnungshistorieeintrag>>> Get()
         {
-            IList<Rechnungshistorieeintrag> rechnungshistorie = await context.Rechnungshistorieeintrags 
-                .Include(n => n.User)
-                .Include(a => a.Angebot).ToListAsync();
+            IList<Rechnungshistorieeintrag> rechnungshistorie = await context.Rechnungshistorieeintrags.ToListAsync();
 
             return Ok(rechnungshistorie.ToList());
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<List<Rechnungshistorieeintrag>>> AddEintrag(Rechnungshistorieeintrag eintrag)
+        {
+            context.Rechnungshistorieeintrags.Add(eintrag);
+            await context.SaveChangesAsync();
+
+            return Ok(await context.Nutzers.ToListAsync());
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<List<Rechnungshistorieeintrag>>> UpdateEintrag(Rechnungshistorieeintrag updatedEintrag)
+        {
+            var dbEintrag = await context.Rechnungshistorieeintrags.FindAsync(updatedEintrag.RhId);
+            if(dbEintrag == null)
+            {
+                return BadRequest("Entry not found");
+            }
+
+            dbEintrag.Storniert = updatedEintrag.Storniert;
+
+            await context.SaveChangesAsync();
+
+            return Ok(await context.Rechnungshistorieeintrags.ToListAsync());
         }
     }
 }

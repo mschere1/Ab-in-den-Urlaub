@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Backend",
+    "\\Backend\\AbInDenUrlaub"
   ],
-  "SelectedNode": "\\AbInDenUrlaub.sln",
+  "SelectedNode": "\\Backend\\AbInDenUrlaub\\AbInDenUrlaub.sln",
   "PreviewInSolutionExplorer": false
 }
