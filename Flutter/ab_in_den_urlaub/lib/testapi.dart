@@ -18,18 +18,73 @@ class TestAPI extends StatefulWidget {
 }
 
 class _TestAPIState extends State<TestAPI> {
-  httpget() async {
-    String url = 'http://example.com/api/items/1';
-    Map<String, String> headers = HashMap();
-    headers.putIfAbsent('Accept', () => 'application/json');
+  String url = 'https://localhost:7077/api/Nutzer';
+  var jsons = [];
+  var response;
+  void fetchUser() async {
+    try {
+      response = await http.get(Uri.parse(url));
+      final jsonData = jsonDecode(response.body) as List;
+      setState(() {
+        jsons = jsonData;
+      });
+    } catch (err) {
+      print(err.toString());
+    }
+  }
 
-    http.Response response = await http.get(
-      url,
-      headers: headers,
-    );
+  void postUser() async {
+    try {
+      response = await http.post(Uri.parse(url),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8'
+          },
+          body: jsonEncode((<String, String>{
+            'username': "BastianDerKappen",
+            "nachname": "Huber",
+            "vorname": "Bastian",
+            "password": "mylittlepony123",
+            "email": "emailtest",
+            "tokenstand": 0.toString(),
+            "vermieter": false.toString(),
+            "admin": true.toString(),
+            "user": "1Penis"
+          })));
+      //final jsonData = jsonDecode(response.body) as List;
+      //setState(() {
+      //  jsons = jsonData;
+      //});
+      print(response.body);
+    } catch (err) {
+      print(err.toString());
+    }
+  }
 
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+  void httpget() async {
+    var response;
+    try {
+      response = await http.get(Uri.parse(url));
+      final jsonData = jsonDecode(response.body);
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('AlertDialog Title'),
+          content: Text("test"), //response.body),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } catch (err) {}
+
+    //print('Response status: ${response.statusCode}');
   }
 
   @override
@@ -41,9 +96,29 @@ class _TestAPIState extends State<TestAPI> {
           preferredSize: AppBar().preferredSize,
           child: AppBarBrowser(),
         ),
-        body: ElevatedButton(
-          child: Text("Test"),
-          onPressed: httpget(),
+        body: Column(
+          children: [
+            ElevatedButton(
+              child: Text("TestGet"),
+              onPressed: fetchUser,
+            ),
+            ElevatedButton(
+              child: Text("TestPost"),
+              onPressed: postUser,
+            ),
+            TextField(),
+            Container(
+              height: 500,
+              child: ListView.builder(
+                itemCount: jsons.length,
+                itemBuilder: (context, i) {
+                  final json = jsons[i];
+                  return Text(
+                      "userid = ${json["userId"]}, username = ${json["username"]}, nachname = ${json["nachname"]}, vorname = ${json["vorname"]},  email = ${json["email"]}, tokens = ${json["tokenstand"]},");
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

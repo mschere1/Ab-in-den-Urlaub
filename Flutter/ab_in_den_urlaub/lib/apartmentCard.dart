@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class ApartmentCard extends StatefulWidget {
-  ApartmentCard({Key? key}) : super(key: key);
+  String anlagenName = "";
+  String bewertung = "";
+  String text = "";
+  String images = "";
+  ApartmentCard(
+      {Key? key,
+      required this.anlagenName,
+      required this.bewertung,
+      required this.text})
+      : super(key: key);
 
   @override
   _ApartmentCardState createState() => _ApartmentCardState();
@@ -22,8 +31,9 @@ class _ApartmentCardState extends State<ApartmentCard> {
         width: cardWitdh,
         height: cardHeight,
         child: Container(
-          decoration: const BoxDecoration(
-              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 8, spreadRadius: -13)]),
+          decoration: const BoxDecoration(boxShadow: [
+            BoxShadow(color: Colors.grey, blurRadius: 8, spreadRadius: -13)
+          ]),
           child: Container(
             margin: EdgeInsets.all(20),
             child: Card(
@@ -35,13 +45,13 @@ class _ApartmentCardState extends State<ApartmentCard> {
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: [
                         Text(
-                          "Ferienpark Bella Spiggia ",
+                          widget.anlagenName,
                           style: TextStyle(fontSize: 30),
                         ),
                         Text(
-                          "4/5 Sterne",
+                          widget.bewertung,
                           style: TextStyle(color: Colors.grey, fontSize: 15),
                         )
                       ],
@@ -66,7 +76,7 @@ class _ApartmentCardState extends State<ApartmentCard> {
                     ),
                     Flexible(
                       child: Text(
-                        "Eine Wundeschöne Ferienalage im Süden Italiens.",
+                        widget.text,
                         style: TextStyle(fontSize: 15, color: Colors.black),
                       ),
                     ),

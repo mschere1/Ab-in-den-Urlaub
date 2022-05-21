@@ -32,8 +32,8 @@ class _AllApartmentsState extends State<AllApartments> {
                         height: MediaQuery.of(context).size.height * 0.7,
                         width: MediaQuery.of(context).size.width,
                         child: const FittedBox(
-                          child:
-                              const Image(image: AssetImage("images/hallstatt.jpg")),
+                          child: const Image(
+                              image: AssetImage("images/hallstatt.jpg")),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -69,12 +69,12 @@ class _AllApartmentsState extends State<AllApartments> {
                       height: MediaQuery.of(context).size.height * 0.5,
                       width: MediaQuery.of(context).size.width,
                       child:
-                        ListView(scrollDirection: Axis.horizontal, children: [
-                        ApartmentCard(),
-                        ApartmentCard(),
-                        ApartmentCard(),
-                        ApartmentCard(),
-                        ApartmentCard(),ApartmentCard(),
+                          ListView(scrollDirection: Axis.horizontal, children: [
+                        //ApartmentCard(),
+                        //ApartmentCard(),
+                        //ApartmentCard(),
+                        //ApartmentCard(),
+                        //ApartmentCard(),ApartmentCard(),
                       ]),
                     ),
                     Container(
@@ -89,17 +89,18 @@ class _AllApartmentsState extends State<AllApartments> {
                       width: MediaQuery.of(context).size.width,
                       child:
                           ListView(scrollDirection: Axis.horizontal, children: [
-                        ApartmentCard(),
-                        ApartmentCard(),
-                        ApartmentCard(),
-                        ApartmentCard(),
-                        ApartmentCard(),ApartmentCard(),
+                        //ApartmentCard(),
+                        //ApartmentCard(),
+                        //ApartmentCard(),
+                        //ApartmentCard(),
+                        //ApartmentCard(),ApartmentCard(),
                       ]),
                     ),
                     Container(
                       height: 10,
                     ),
-                    const Text("Griechenland", style: const TextStyle(fontSize: 50)),
+                    const Text("Griechenland",
+                        style: const TextStyle(fontSize: 50)),
                     Container(
                       height: 10,
                     ),
@@ -108,11 +109,11 @@ class _AllApartmentsState extends State<AllApartments> {
                       width: MediaQuery.of(context).size.width,
                       child:
                           ListView(scrollDirection: Axis.horizontal, children: [
-                        ApartmentCard(),
-                        ApartmentCard(),
-                        ApartmentCard(),
-                        ApartmentCard(),
-                        ApartmentCard(),ApartmentCard(),
+                        //ApartmentCard(),
+                        //ApartmentCard(),
+                        //ApartmentCard(),
+                        //ApartmentCard(),
+                        //ApartmentCard(),ApartmentCard(),
                       ]),
                     ),
                   ],
