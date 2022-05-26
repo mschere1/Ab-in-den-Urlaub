@@ -35,21 +35,35 @@ class _TestAPIState extends State<TestAPI> {
 
   void postUser() async {
     try {
-      response = await http.post(Uri.parse(url),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8'
-          },
-          body: jsonEncode((<String, String>{
-            'username': "BastianDerKappen",
-            "nachname": "Huber",
-            "vorname": "Bastian",
-            "password": "mylittlepony123",
+      response = await http.post(Uri.parse(url), headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      }, body: """ {
+    "username": "niggotestasndddassdbdsdsjniasberino",
+    "nachname": "dsauhdiuasajfabahdsdbsddsfhidushaiud",
+    "vorname": "asdoiuhasiudsajdsnhaidsdsudhiuhciuewhbc",
+    "password": "siauvbiushvrauisddvbdsiubvdiuvb",
+    "email": "ascuiadshvieruvhsiassdjbdsvhids349uhv9835hv9r",
+    "tokenstand": 0,
+    "vermieter": false,
+    "admin": true
+  }""");
+
+      /**
+           * (<String, String>{
+            'username': "BastianDerlppen!1",
+            "nachname": "dhfbdsuhzbu",
+            "vorname": "asdhiabsdhua",
+            "password": "asdhasbdhuasbdu",
             "email": "emailtest",
             "tokenstand": 0.toString(),
             "vermieter": false.toString(),
-            "admin": true.toString(),
-            "user": "1Penis"
-          })));
+            "bewertungs": "[]",
+            "ferienwohnungs": "[]",
+            "gebots": "[]",
+            "kreditkartendatens": "[]",
+            "rechnungshistorieeintrags": "[]"
+          })
+           */
       //final jsonData = jsonDecode(response.body) as List;
       //setState(() {
       //  jsons = jsonData;
@@ -110,11 +124,23 @@ class _TestAPIState extends State<TestAPI> {
             Container(
               height: 500,
               child: ListView.builder(
+                // ich brauch die anzahl (json length), die eig items(anstatt text mit userid, dynamisch neue erstellen)
                 itemCount: jsons.length,
+                wohnungenJson = await http.get(Uri.parse('https://localhost:7077/api/Ferienwohnung'));
+                final jsonWohnung = jsonDecode(wohnungenJson.body) as List;
+                var anzahlWohnungen = jsonWohnung.length;
                 itemBuilder: (context, i) {
                   final json = jsons[i];
                   return Text(
+                    //parameter für appartment karte übergeben
+                    //ich hätte eine for schleife gemacht, weis nicht wie man auf die verschiedenen stellen in der json zugreifen soll
+                    //ich versteh nicht wie ich an die json komm von den appartments      
+                    //ich glaub durch get aufruf aber weis nich genau wie                     glaub habs geschafft aber is glaub leer deshabl bringts nichts
+                    
+
+                    ApartmentCard(anlagenName:json["anlagenName"],bewertung:json["bewertung"], text:json["text"]),
                       "userid = ${json["userId"]}, username = ${json["username"]}, nachname = ${json["nachname"]}, vorname = ${json["vorname"]},  email = ${json["email"]}, tokens = ${json["tokenstand"]},");
+                      //wusst nich was ich mit dem user machen soll?
                 },
               ),
             ),

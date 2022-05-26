@@ -88,8 +88,8 @@ class _AllApartmentsState extends State<AllApartments> {
                       height: MediaQuery.of(context).size.height * 0.5,
                       width: MediaQuery.of(context).size.width,
                       child:
-                          ListView(scrollDirection: Axis.horizontal, children: [
-                        //ApartmentCard(),
+                          ListView(scrollDirection: Axis.horizontal, children: [// listview builder muss hierher
+                        //ApartmentCard(anlagenName:json["anlagenName"]),
                         //ApartmentCard(),
                         //ApartmentCard(),
                         //ApartmentCard(),
